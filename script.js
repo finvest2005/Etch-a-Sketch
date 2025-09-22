@@ -1,4 +1,3 @@
-let numberCells = 16;
 const container = document.querySelector('.container');
 
 function changeGrid() {
@@ -10,12 +9,10 @@ function changeGrid() {
     num = parseInt(xx);
   }
   container.replaceChildren();
-  console.log(num);
-  numberCells = num;
-  drawGrid();
+  drawGrid(num);
 }
 
-function drawGrid() {
+function drawGrid(numberCells) {
   for (let i = 1; i <= numberCells; i++) {
     const elem = document.createElement('div');
     elem.style.border = '1px solid black';
@@ -47,4 +44,4 @@ function drawGrid() {
   button.addEventListener('click', changeGrid);
 }
 
-drawGrid();
+drawGrid(16);
