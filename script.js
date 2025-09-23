@@ -15,14 +15,18 @@ function changeGrid() {
 }
 
 function drawGrid(numberCells) {
-  const coeff = window.innerWidth / window.innerHeight;
+  const button = document.querySelector('.changeGrid');
+  console.log(button.offsetHeight);
+  const coeff = window.innerWidth / (window.innerHeight - button.offsetHeight);
+  const prcH =
+    90 - Math.round((button.offsetHeight * 100) / window.innerHeight);
   let cellH = 0;
   let cellW = 0;
   if (coeff < 1.0) {
-    cellH = (90 / numberCells - 0.01) * coeff;
+    cellH = (prcH / numberCells - 0.01) * coeff;
     cellW = 90 / numberCells - 0.01;
   } else {
-    cellH = 90 / numberCells - 0.01;
+    cellH = prcH / numberCells - 0.01;
     cellW = (90 / numberCells - 0.01) / coeff;
   }
   const cell = Math.min(cellH, cellW).toFixed(2);
@@ -53,7 +57,6 @@ function drawGrid(numberCells) {
     elem.style.backgroundColor = 'white';
   });
 
-  const button = document.querySelector('.changeGrid');
   button.addEventListener('click', changeGrid);
 }
 
