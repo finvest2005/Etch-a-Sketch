@@ -1,3 +1,4 @@
+let currentGrid = 16;
 const container = document.querySelector('.container');
 
 function changeGrid() {
@@ -9,14 +10,26 @@ function changeGrid() {
     num = parseInt(xx);
   }
   container.replaceChildren();
+  currentGrid = num;
   drawGrid(num);
 }
 
 function drawGrid(numberCells) {
+  const coeff = window.innerWidth / window.innerHeight;
+  let cellH = 0;
+  let cellW = 0;
+  if (coeff < 1.0) {
+    cellH = (90 / numberCells - 0.01) * coeff;
+    cellW = 90 / numberCells - 0.01;
+  } else {
+    cellH = 90 / numberCells - 0.01;
+    cellW = (90 / numberCells - 0.01) / coeff;
+  }
+  const cell = Math.min(cellH, cellW).toFixed(2);
   for (let i = 1; i <= numberCells; i++) {
     const elem = document.createElement('div');
     elem.style.border = '1px solid black';
-    elem.style.height = (90 / numberCells - 0.01).toFixed(2) + 'vh';
+    elem.style.height = cellH + 'vh';
     elem.style.display = 'flex';
     elem.style.flexDirection = 'row';
     elem.classList.add('row' + i);
@@ -24,7 +37,7 @@ function drawGrid(numberCells) {
       const elem_row = document.createElement('div');
       elem_row.classList.add('row' + i + 'col' + j);
       elem_row.style.border = '1px solid black';
-      elem_row.style.width = (90 / numberCells - 0.01).toFixed(2) + 'vw';
+      elem_row.style.width = cellW + 'vw';
       elem.appendChild(elem_row);
     }
     container.appendChild(elem);
@@ -44,4 +57,9 @@ function drawGrid(numberCells) {
   button.addEventListener('click', changeGrid);
 }
 
-drawGrid(16);
+window.onresize = function (event) {
+  container.replaceChildren();
+  drawGrid(currentGrid);
+};
+
+drawGrid(currentGrid);
